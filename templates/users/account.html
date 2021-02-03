@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Об аккаунте</title>
+</head>
+<body>
+    <h2 style="text-align: center">Об аккаунте</h2>
+    {% if request.user.is_authenticated %}
+        {% if user_page.profile.photo %}
+            <p><img src="/{{ user_page.profile.photo }}/" alt="Фото профиля"></p>
+        {% endif %}
+        <h3>Ник: {{ user_page.username }}</h3>
+        <h3>Фамилия: {{ user_page.last_name }}</h3>
+        <h3>Имя: {{ user_page.first_name }}</h3>
+        <h3>О себе: {{ user_page.profile.about }}</h3>
+        {% if user_page == request.user %}
+            <a href="/user/account/{{ request.user.id }}/edit/">Редактировать</a>
+        {% endif %}
+    {% else %}
+        <h3>Чтобы просматривать профили, войдите в систему или зарегистрируйтесь:</h3>
+        <a href="{% url 'login' %}">Войти</a>
+        <a href="{% url 'register' %}">Зарегистрироваться</a>
+    {% endif %}
+<p><a href="{% url 'main_page' %}">Главная страница</a></p>
+</body>
+</html>

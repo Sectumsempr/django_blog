@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование</title>
+</head>
+<body>
+<h2>
+    Редактирование
+</h2>
+{% if request.user.is_authenticated and request.user.id == pk %}
+    <form method="post" action="/user/account/{{ request.user.id }}/edit/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+    <button type="submit">Сохранить</button>
+    </form>
+{% elif not request.user.id == pk %}
+    <h3>Доступ запрещен! Нельзя редактировать чужой профиль!</h3>
+{% else %}
+    <h3>Чтобы редактировать аккаунт, пожалуйста, войдите в систему или зарегистрируйтесь:</h3>
+    <a href="{% url 'login' %}">Войти</a>
+<p></p>
+    <a href="{% url 'register' %}">Зарегистрироваться</a>
+{% endif %}
+</body>
+</html>
